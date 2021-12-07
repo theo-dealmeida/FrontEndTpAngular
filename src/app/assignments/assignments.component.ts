@@ -65,4 +65,8 @@ export class AssignmentsComponent implements OnInit {
       this.page = this.nextPage;
       this.getAssignments();
   }
+
+  changeLimit() {
+    this.getAssignments();
+  }
 }
