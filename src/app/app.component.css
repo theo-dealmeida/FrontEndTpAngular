@@ -29,3 +29,27 @@ section {
   justify-content: center;
   width: 120px;
 }
+
+.menu-button {
+  font-size: 30px;
+  color: white;
+}
+
+.toolbar-button {
+  font-family: Roboto, sans-serif;
+  text-decoration: none;
+  margin-left: 10px;
+  color: white;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.menu-color {
+  background-color: midnightblue;
+}
+
+.mat-list-item{
+  color: white;
+}

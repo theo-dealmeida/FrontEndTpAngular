@@ -1,18 +1,42 @@
-<h1>
-  <nav>
-    <a routerLink="/home">
-      {{title}}
-    </a>
-  </nav>
-</h1>
+<mat-toolbar class="menu-color">
+  <button (click)="drawer.toggle()" mat-icon-button type="button">
+    <mat-icon class="menu-button">menu</mat-icon>
+  </button>
+  <a class="toolbar-button" routerLink="/home">
+    Assignments
+  </a>
+  <span class="spacer"></span>
+  <a *ngIf="!authService.loggedIn" (click)="login()" class="toolbar-button" routerLink="/home">
+    Se connecter
+  </a>
+  <a *ngIf="authService.loggedIn" (click)="login()" class="toolbar-button" routerLink="/home">
+    Se déconnecter
+  </a>
+</mat-toolbar>
 
-<mat-slide-toggle (click)="login()">Login</mat-slide-toggle>
-<br>
-<button mat-raised-button
-        color="primary"
-        (click)="remplirBD()"
->
-        PEUPLER BD
-</button>
+<mat-drawer-container autosize class="example-container">
+  <mat-drawer #drawer class="menu-color" mode="side">
+    <mat-nav-list>
 
-<router-outlet></router-outlet>
+      <a mat-list-item [routerLink]="'/home'"> Liste assignments </a>
+
+    </mat-nav-list>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+
+    <br>
+    <button (click)="remplirBD()"
+            color="primary"
+            mat-raised-button
+    >
+      PEUPLER BD
+    </button>
+
+    <router-outlet></router-outlet>
+  </div>
+
+</mat-drawer-container>
+
+
+
