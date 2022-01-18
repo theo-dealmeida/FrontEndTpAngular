@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { AssignmentsService } from './shared/assignments.service';
 import { AuthService } from './shared/auth.service';
@@ -11,7 +11,7 @@ import {RegisterComponent} from "./register/register.component";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Application de gestion des assignments';
 
   constructor(
@@ -20,6 +20,14 @@ export class AppComponent {
     private assignmentsService: AssignmentsService,
     public dialog: MatDialog
   ) {}
+
+  ngOnInit(): void {
+    console.log(this.authService.getToken())
+    if (localStorage.getItem('x-access-token') != 'null') {
+      this.authService.loggedIn = true;
+      this.authService.getUserProfile();
+    }
+  }
 
   register() {
     const dialogRef = this.dialog.open(RegisterComponent);

@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -34,6 +34,7 @@ import {RenduDirective} from './shared/rendu.directive';
 
 import {AuthGuard} from './shared/auth.guard';
 import {AuthInterceptor} from "./shared/authconfig.interceptor";
+import {AuthService} from "./shared/auth.service";
 
 export function tokenGetter() {
   return localStorage.getItem("x-access-token");
@@ -67,6 +68,7 @@ const routes:Routes = [
     canActivate: [AuthGuard]
   }
 ];
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,8 +96,7 @@ const routes:Routes = [
       },
     }),
   ],
-  providers: [
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

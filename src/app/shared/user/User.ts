@@ -4,7 +4,7 @@ export class User {
   email: String | undefined;
   password: String | undefined;
 
-  constructor(email: string, password: string, name?: string) {
+  constructor( email?: string, password?: string, name?: string, id?: string,) {
     this.email = email;
     this.password = password;
     this.name = name;

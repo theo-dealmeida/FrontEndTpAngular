@@ -23,12 +23,15 @@ export class LoginComponent implements OnInit {
   login() {
     let user = new User(this.email, this.password)
 
-    console.log(localStorage.getItem('x-access-token'))
+    this.authService.logIn(user).subscribe( res => {
+      if (this.authService.loggedIn) {
+        this.dialogRef.close(true);
+      }
+      }
+    );
 
-    this.authService.logIn(user);
-    if (localStorage.getItem('x-access-token')) {
-      this.dialogRef.close(true);
-    }
+    console.log(localStorage.getItem('x-access-token'));
+
 
 
   }
