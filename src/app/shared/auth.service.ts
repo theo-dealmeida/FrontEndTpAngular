@@ -3,6 +3,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {User} from "./user/User";
 import {catchError, map, Observable, throwError} from "rxjs";
 import { Router } from '@angular/router';
+import { JwtHelperService } from "@auth0/angular-jwt";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,6 @@ export class AuthService {
   loggedIn = false;
 
   url = "http://localhost:8010/api/auth";
-
 
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
@@ -26,9 +26,9 @@ export class AuthService {
   logIn(user: User) {
     return this.http.post<any>(this.url + '/login', {email: user.email, password: user.password})
       .subscribe((res: any) => {
-        localStorage.setItem('x-access-token', res.token)
-        console.log(this.getToken())
+        AuthService.setSession(this.jwtHelper.getTokenExpirationDate(res.token), res.token)
         if(res.auth === true) {
+          this.loggedIn = true;
           this.getUserProfile().subscribe((res) => {
             this.currentUser = res;
             console.log(res)
@@ -51,7 +51,17 @@ export class AuthService {
     )
   }
 
+  private static setSession(expiresIn: any, token: string ) {
+    localStorage.setItem('x-access-token',token);
+    localStorage.setItem("expires_at", expiresIn );
+  }
+
+  public getExpiration() {
+    return localStorage.getItem("expires_at");
+  }
+
   logOut(): Observable<any> {
+    this.loggedIn = false;
     return this.http.get<any>(this.url + `/logout`).pipe(
       map((res: Response) => {
         return res || {}
@@ -80,5 +90,5 @@ export class AuthService {
     return throwError(msg);
   }
 
-  constructor(private http: HttpClient, public router: Router) { }
+  constructor(private http: HttpClient, public router: Router, public jwtHelper: JwtHelperService) { }
 }

@@ -6,13 +6,13 @@
     Assignments
   </a>
   <span class="spacer"></span>
-  <button mat-raised-button color="primary" (click)="register()" class="signup-logout-button" routerLink="/home">
+  <button mat-raised-button *ngIf="!this.authService.loggedIn"  color="primary" (click)="register()" class="signup-logout-button" routerLink="/home">
     S'inscrire
   </button>
-  <button mat-raised-button (click)="login()" class="login-button" routerLink="/home">
+  <button mat-raised-button *ngIf="!this.authService.loggedIn" (click)="login()" class="login-button" routerLink="/home">
     Se connecter
   </button>
-  <button mat-raised-button color="accent" (click)="logout()" class="signup-logout-button" routerLink="/home">
+  <button mat-raised-button *ngIf="this.authService.loggedIn" color="accent" (click)="logout()" class="signup-logout-button" routerLink="/home">
     Se déconnecter
   </button>
 </mat-toolbar>

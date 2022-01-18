@@ -1,6 +1,7 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, HostListener, OnInit} from "@angular/core";
 import {AuthService} from "../shared/auth.service";
 import {User} from "../shared/user/User";
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-login',
@@ -13,22 +14,20 @@ export class LoginComponent implements OnInit {
 
   email = "";
   password ="";
-  closeDialog = false;
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, private dialogRef: MatDialogRef<LoginComponent>) { }
 
   ngOnInit(): void {
   }
 
   login() {
-
-    console.log(this.email);
-
     let user = new User(this.email, this.password)
+
+    console.log(localStorage.getItem('x-access-token'))
 
     this.authService.logIn(user);
     if (localStorage.getItem('x-access-token')) {
-      this.closeDialog = true;
+      this.dialogRef.close(true);
     }
 
 

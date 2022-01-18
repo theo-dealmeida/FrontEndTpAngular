@@ -19,6 +19,7 @@ import {FormsModule} from '@angular/forms';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
 import {RouterModule, Routes} from '@angular/router';
+import { JwtModule } from "@auth0/angular-jwt";
 
 import {AppComponent} from './app.component';
 import {AssignmentsComponent} from './assignments/assignments.component';
@@ -34,6 +35,9 @@ import {RenduDirective} from './shared/rendu.directive';
 import {AuthGuard} from './shared/auth.guard';
 import {AuthInterceptor} from "./shared/authconfig.interceptor";
 
+export function tokenGetter() {
+  return localStorage.getItem("x-access-token");
+}
 
 const routes:Routes = [
   {
@@ -60,6 +64,7 @@ const routes:Routes = [
   {
     path:"profile/:id",
     component: ProfileComponent,
+    canActivate: [AuthGuard]
   }
 ];
 @NgModule({
@@ -82,7 +87,12 @@ const routes:Routes = [
     MatNativeDateModule, MatListModule, MatCardModule,
     MatCheckboxModule, MatSlideToggleModule, HttpClientModule,
     RouterModule.forRoot(routes), MatSidenavModule, MatToolbarModule,
-    MatDialogModule, MatSelectModule
+    MatDialogModule, MatSelectModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter
+      },
+    }),
   ],
   providers: [
   ],

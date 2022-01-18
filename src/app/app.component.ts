@@ -25,7 +25,6 @@ export class AppComponent {
     const dialogRef = this.dialog.open(RegisterComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -33,12 +32,14 @@ export class AppComponent {
     const dialogRef = this.dialog.open(LoginComponent);
 
     dialogRef.afterClosed().subscribe(result => {
+    })
 
-    });
   }
 
   logout() {
-    this.authService.logOut();
+    this.authService.logOut().subscribe((res) => {
+          localStorage.setItem('x-access-token', res.token);
+    });
   }
 
   remplirBD() {
