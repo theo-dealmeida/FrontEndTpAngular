@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AssignmentsService } from './shared/assignments.service';
 import { AuthService } from './shared/auth.service';
+import {MatDialog} from "@angular/material/dialog";
+import {LoginComponent} from "./login/login.component";
+import {RegisterComponent} from "./register/register.component";
 
 @Component({
   selector: 'app-root',
@@ -10,23 +13,32 @@ import { AuthService } from './shared/auth.service';
 })
 export class AppComponent {
   title = 'Application de gestion des assignments';
-  showFiller = false;
 
   constructor(
     public authService: AuthService,
     private router: Router,
-    private assignmentsService: AssignmentsService
+    private assignmentsService: AssignmentsService,
+    public dialog: MatDialog
   ) {}
 
+  register() {
+    const dialogRef = this.dialog.open(RegisterComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
   login() {
-    if (!this.authService.loggedIn) {
-      console.log("Je n'étais pas connecté, je suis maintenant loggé");
-      this.authService.logIn();
-    } else {
-      console.log("J'étais  connecté, je suis maintenant déloggé");
-      this.authService.logOut();
-      this.router.navigate(['/home']);
-    }
+    const dialogRef = this.dialog.open(LoginComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+  }
+
+  logout() {
+    this.authService.logOut();
   }
 
   remplirBD() {
