@@ -1,3 +1,44 @@
+<div class="wrap-table100">
+  <div class="table100 ver1 m-b-110">
+    <div class="table100-head">
+      <table>
+        <thead>
+        <tr class="row100 head">
+          <th class="cell100 column1">Assignement</th>
+          <th class="cell100 column2">Rendu</th>
+          <th class="cell100 column3">Date</th>
+          <th class="cell100 column4">Commentaires</th>
+          <th class="cell100 column5">Note</th>
+        </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="table100-body js-pscroll ps ps--active-y">
+      <table>
+        <tbody>
+        <tr *ngFor="let assigment of assignments">
+          <td class="cell100 column1"><a routerLink="/assignment/{{assigment.id}}">{{assigment.nom}}</a></td>
+          <td class="cell100 column2">{{assigment.rendu}}</td>
+          <td class="cell100 column3">{{assigment.dateDeRendu | date}}</td>
+          <td class="cell100 column4">RAS</td>
+          <td class="cell100 column5">
+            <p *ngIf="assigment.rendu;" appRendu>
+              10 / 20
+            </p>
+            <p *ngIf="!assigment.rendu;" appRendu>
+              - / -
+            </p>
+          </td>
+
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
 <main class="container">
   <div class="ajouterBtn">
     <a routerLink="/add">
@@ -7,30 +48,36 @@
     </a>
   </div>
 
-  <h2>Liste des assignments :</h2>
-  Nb assignments par page :
+
+  <div style="text-align: center;"><h2>Liste des assignments :</h2></div>
+  Nombre assignments par page :
   <input type=range min=2 max=100 value=10 [(ngModel)]="limit" (change)="getAssignments()"> {{limit}}
-<div class="pagination">
-  <button mat-stroked-button color="primary"
-          (click)="premierePage()"
-          [disabled]="page===1"
-  >Première page</button>
-  &nbsp;
-  <button mat-stroked-button color="primary"
-          (click)="pagePrecedente()"
-          [disabled]="!hasPrevPage"
-  >Page précédente</button>
-  &nbsp;
-  <button mat-stroked-button color="primary"
-          (click)="pageSuivante()"
-          [disabled]="!hasNextPage"
-          >Page suivante</button>
-  &nbsp;
-  <button mat-stroked-button color="primary"
-          (click)="dernierePage()"
-          [disabled]="page===totalPages"
-  >Dernière page</button>
-</div>
+  <div class="pagination">
+    <button mat-stroked-button color="primary"
+            (click)="premierePage()"
+            [disabled]="page===1"
+    >Première page
+    </button>
+    &nbsp;
+    <button mat-stroked-button color="primary"
+            (click)="pagePrecedente()"
+            [disabled]="!hasPrevPage"
+    >Page précédente
+    </button>
+    &nbsp;
+    <button mat-stroked-button color="primary"
+            (click)="pageSuivante()"
+            [disabled]="!hasNextPage"
+    >Page suivante
+    </button>
+    &nbsp;
+    <button mat-stroked-button color="primary"
+            (click)="dernierePage()"
+            [disabled]="page===totalPages"
+    >Dernière page
+    </button>
+
+  </div>
   <mat-list *ngFor="let assignment of assignments">
     <nav>
       <a routerLink="/assignment/{{assignment.id}}">
