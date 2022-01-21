@@ -51,6 +51,8 @@ export class AuthService {
     }
   }
 
+
+
   getUserProfile(): Observable<any> {
     return this.http.get<any>(this.url + `/me`, { headers: this.headers.set('x-access-token', this.getToken()!) }).pipe(
       map((res: Response) => {
@@ -58,6 +60,15 @@ export class AuthService {
       }),
       catchError(this.handleError)
     )
+  }
+
+  async setCurrentUser() {
+    if(this.loggedIn) {
+      this.getUserProfile().subscribe((res) => {
+        this.currentUser = new User(res.email, res.password, res.name, res._id);
+        console.log(this.currentUser)
+      })
+    }
   }
 
   private static setSession(expiresIn: any, token: string ) {
@@ -80,10 +91,19 @@ export class AuthService {
     )
   }
 
-  isAdmin() {
-    // renvoie une promesse !
+  isLogged(){
     return new Promise((resolve, reject) => {
       if (!this.isTokenExpired()) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  }
+
+  isAdmin(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      if (!this.isTokenExpired() && this.currentUser.name === 'admin') {
         resolve(true);
       } else {
         resolve(false);
@@ -103,5 +123,7 @@ export class AuthService {
     return throwError(msg);
   }
 
-  constructor(private http: HttpClient, public router: Router, public jwtHelper: JwtHelperService) { }
+  constructor(private http: HttpClient, public router: Router, public jwtHelper: JwtHelperService) {
+    this.setCurrentUser()
+  }
 }

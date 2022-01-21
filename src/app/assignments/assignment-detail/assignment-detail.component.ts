@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { AuthService } from 'src/app/shared/auth.service';
 import { Assignment } from '../assignment.model';
+import {User} from "../../shared/user/User";
 
 @Component({
   selector: 'app-assignment-detail',
@@ -12,6 +13,8 @@ import { Assignment } from '../assignment.model';
 })
 export class AssignmentDetailComponent implements OnInit {
   assignmentTransmis?:Assignment;
+  isAdmin? : boolean;
+  currentUser: User = new User();
 
   constructor(private assignmentService:AssignmentsService,
               private route:ActivatedRoute,
@@ -20,6 +23,15 @@ export class AssignmentDetailComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("DANS COMPOSANT DETAIL")
+
+    if (this.authService.loggedIn) {
+      this.authService.getUserProfile().subscribe(res => {
+        this.authService.currentUser = res;
+        console.log(this.authService.currentUser)
+        this.checkAdmin();
+      })
+    }
+
     this.getAssignment();
   }
 
@@ -81,7 +93,9 @@ export class AssignmentDetailComponent implements OnInit {
                       });
   }
 
-  isAdmin() {
-    return this.authService.loggedIn;
+  checkAdmin() {
+    this.authService.isAdmin().then( res => {
+      this.isAdmin = res;
+    })
   }
 }

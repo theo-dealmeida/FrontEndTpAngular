@@ -32,9 +32,10 @@ import {ProfileComponent} from "./profile/profile.component";
 
 import {RenduDirective} from './shared/rendu.directive';
 
-import {AuthGuard} from './shared/auth.guard';
+import {AuthGuardAdmin} from './shared/auth-guard-admin.service';
 import {AuthInterceptor} from "./shared/authconfig.interceptor";
 import {AuthService} from "./shared/auth.service";
+import {AuthGuardUser} from "./shared/auth-guard-user.service";
 
 export function tokenGetter() {
   return localStorage.getItem("x-access-token");
@@ -60,12 +61,12 @@ const routes:Routes = [
   {
     path:"assignment/:id/edit",
     component: EditAssignmentComponent,
-    canActivate : [AuthGuard]
+    canActivate : [AuthGuardAdmin]
   },
   {
     path:"profile/:id",
     component: ProfileComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuardUser]
   }
 ];
 

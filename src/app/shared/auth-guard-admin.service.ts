@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuardAdmin implements CanActivate {
 
   constructor(private authService:AuthService,
     private router:Router) {}
@@ -15,20 +15,14 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    // si on associe ce gardien à des routes
-    // on aura le droit d'y aller que si on renvoie true
-    //return true;
-
     return this.authService.isAdmin()
     .then(authentifie => {
       if(authentifie) {
-        console.log("Authentifié, navigation autorisée")
+        console.log("Authentifié en tant qu'admin, navigation autorisée")
         return true;
       }
       else {
-        // avant de renvoyer false, on va naviguer
-        // vers une page d'erreur ou vers la page d'accueil
-        console.log("NON Authentifié, navigation non autorisée");
+        console.log("NON Authentifié en tant qu'admin, navigation non autorisée");
 
         this.router.navigate(["/home"]);
 

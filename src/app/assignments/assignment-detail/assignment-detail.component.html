@@ -16,7 +16,7 @@
           <a [routerLink]="['/assignment', assignmentTransmis.id, 'edit']">
           -->
 
-        <button [disabled]="!isAdmin()" mat-stroked-button color="primary" (click)="onClickEdit()">
+        <button [disabled]="!isAdmin" mat-stroked-button color="primary" (click)="onClickEdit()">
           EDIT
         </button>
         <!--

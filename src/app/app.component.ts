@@ -19,13 +19,16 @@ export class AppComponent implements OnInit {
     private router: Router,
     private assignmentsService: AssignmentsService,
     public dialog: MatDialog
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
-    console.log(this.authService.getToken())
     if (localStorage.getItem('x-access-token') != 'null' && !this.authService.isTokenExpired()) {
       this.authService.loggedIn = true;
-      this.authService.getUserProfile();
+      this.authService.getUserProfile().subscribe(res => {
+        this.authService.currentUser = res;
+        console.log(this.authService.currentUser)
+      })
     }
   }
 
