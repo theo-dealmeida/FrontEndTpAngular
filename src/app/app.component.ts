@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.authService.getToken())
-    if (localStorage.getItem('x-access-token') != 'null') {
+    if (localStorage.getItem('x-access-token') != 'null' && !this.authService.isTokenExpired()) {
       this.authService.loggedIn = true;
       this.authService.getUserProfile();
     }
