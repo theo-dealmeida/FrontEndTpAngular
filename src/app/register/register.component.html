@@ -4,12 +4,12 @@
 
   <mat-form-field class="field" appearance="outline">
     <mat-label>E-mail</mat-label>
-    <input [(ngModel)]="email" matInput placeholder="Ex : jean@gmail.com">
+    <input required [(ngModel)]="email" matInput placeholder="Ex : jean@gmail.com">
   </mat-form-field>
 
   <mat-form-field class="field" appearance="outline">
     <mat-label>Mot de passe</mat-label>
-    <input [(ngModel)]="password" matInput [type]="hide ? 'password' : 'text'">
+    <input required [(ngModel)]="password" matInput [type]="hide ? 'password' : 'text'">
     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
       <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
@@ -17,7 +17,7 @@
 
   <mat-form-field class="field" appearance="outline">
     <mat-label>Nom</mat-label>
-    <input [(ngModel)]="name" matInput>
+    <input required [(ngModel)]="name" matInput>
   </mat-form-field>
 
 </mat-dialog-content>

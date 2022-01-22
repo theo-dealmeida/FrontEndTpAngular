@@ -15,7 +15,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle'
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
 import {RouterModule, Routes} from '@angular/router';
@@ -95,7 +95,7 @@ const routes:Routes = [
       config: {
         tokenGetter: tokenGetter
       },
-    }),
+    }), ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

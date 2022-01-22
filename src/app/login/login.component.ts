@@ -2,6 +2,7 @@ import {Component, HostListener, OnInit} from "@angular/core";
 import {AuthService} from "../shared/auth.service";
 import {User} from "../shared/user/User";
 import {MatDialogRef} from "@angular/material/dialog";
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,8 @@ export class LoginComponent implements OnInit {
 
   email = "";
   password ="";
+
+  emailValidation = new FormControl('', [Validators.required, Validators.email]);
 
   constructor(public authService: AuthService, private dialogRef: MatDialogRef<LoginComponent>) { }
 
@@ -29,11 +32,15 @@ export class LoginComponent implements OnInit {
       }
       }
     );
-
     console.log(localStorage.getItem('x-access-token'));
+  }
 
+  getErrorMessage() {
+    if (this.emailValidation.hasError('required')) {
+      return 'Veuillez saisir une valeur';
+    }
 
-
+    return this.emailValidation.hasError('email') ? 'Email invalide' : '';
   }
 }
 
