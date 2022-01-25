@@ -1,15 +1,18 @@
 <h2 mat-dialog-title>S'inscrire</h2>
-
+<form [formGroup]="registerSection">
 <mat-dialog-content class="container">
+
 
   <mat-form-field class="field" appearance="outline">
     <mat-label>E-mail</mat-label>
-    <input required [(ngModel)]="email" matInput placeholder="Ex : jean@gmail.com">
+    <input required [(ngModel)]="email" matInput placeholder="Ex : jean@gmail.com" formControlName="emailValidation">
+    <mat-error *ngIf="registerSection.get('emailValidation')!.invalid">{{getErrorEmailMessage()}}</mat-error>
   </mat-form-field>
 
   <mat-form-field class="field" appearance="outline">
     <mat-label>Mot de passe</mat-label>
-    <input required [(ngModel)]="password" matInput [type]="hide ? 'password' : 'text'">
+    <input required [(ngModel)]="password" matInput [type]="hide ? 'password' : 'text'" formControlName="passwordValidation">
+    <mat-error *ngIf="registerSection.get('passwordValidation')!.invalid">{{getErrorPasswordMessage()}}</mat-error>
     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
       <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
@@ -17,12 +20,14 @@
 
   <mat-form-field class="field" appearance="outline">
     <mat-label>Nom</mat-label>
-    <input required [(ngModel)]="name" matInput>
+    <input required [(ngModel)]="name" matInput formControlName="nameValidation">
+    <mat-error *ngIf="this.registerSection.get('nameValidation')!.invalid">{{getErrorNameMessage()}}</mat-error>
   </mat-form-field>
 
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close="">Annuler</button>
-  <button mat-raised-button color="primary" (click)="register()" [mat-dialog-close]="true" cdkFocusInitial>S'inscrire</button>
+  <button mat-raised-button color="primary" (click)="register()">S'inscrire</button>
 </mat-dialog-actions>
+</form>

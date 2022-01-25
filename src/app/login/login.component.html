@@ -1,14 +1,15 @@
 <h2 mat-dialog-title>Se connecter</h2>
-<form (submit)="login()">
+<form [formGroup]="loginSection" (submit)="login()">
 <mat-dialog-content class="container">
   <mat-form-field class="field" appearance="outline">
     <mat-label>Identifiant</mat-label>
-    <input required type="email" email [(ngModel)]="email" name="email" matInput placeholder="Ex : jean@gmail.com" [formControl]="emailValidation">
-    <mat-error *ngIf="emailValidation.invalid">{{getErrorMessage()}}</mat-error>
+    <input required type="email" email [(ngModel)]="email" name="email" matInput placeholder="Ex : jean@gmail.com" formControlName="emailValidation">
+    <mat-error *ngIf="loginSection.get('emailValidation')!.invalid">{{getErrorEmailMessage()}}</mat-error>
   </mat-form-field>
   <mat-form-field class="field" appearance="outline">
     <mat-label>Mot de passe</mat-label>
-    <input required [(ngModel)]="password" name="password" matInput [type]="hide ? 'password' : 'text'">
+    <input required [(ngModel)]="password" name="password" matInput [type]="hide ? 'password' : 'text'" formControlName="passwordValidation">
+    <mat-error *ngIf="loginSection.get('passwordValidation')!.invalid">{{getErrorPasswordMessage()}}</mat-error>
     <button mat-icon-button type="button" matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
       <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
