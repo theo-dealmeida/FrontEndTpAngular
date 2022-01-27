@@ -29,13 +29,17 @@ import {EditAssignmentComponent} from './assignments/edit-assignment/edit-assign
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from "./register/register.component";
 import {ProfileComponent} from "./profile/profile.component";
+import {MatiereComponent} from "./assignments/matieres/matiere.component";
+
 
 import {RenduDirective} from './shared/rendu.directive';
 
 import {AuthGuardAdmin} from './shared/auth-guard-admin.service';
-import {AuthInterceptor} from "./shared/authconfig.interceptor";
 import {AuthService} from "./shared/auth.service";
 import {AuthGuardUser} from "./shared/auth-guard-user.service";
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 export function tokenGetter() {
   return localStorage.getItem("x-access-token");
@@ -67,7 +71,11 @@ const routes:Routes = [
     path:"profile/:id",
     component: ProfileComponent,
     canActivate: [AuthGuardUser]
-  }
+  },
+  {
+    path:"matiere/:id",
+    component: MatiereComponent
+  },
 ];
 
 @NgModule({
@@ -80,7 +88,8 @@ const routes:Routes = [
     EditAssignmentComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    MatiereComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +104,7 @@ const routes:Routes = [
       config: {
         tokenGetter: tokenGetter
       },
-    }), ReactiveFormsModule,
+    }), ReactiveFormsModule, MatTableModule, MatSortModule, MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

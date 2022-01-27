@@ -1,71 +1,51 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { forkJoin, Observable, of } from 'rxjs';
-import { Assignment } from '../assignments/assignment.model';
-import { LoggingService } from './logging.service';
-import { bdInitialAssignments } from './data';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {forkJoin, Observable} from 'rxjs';
+import {Assignment} from '../assignments/assignment.model';
+import {LoggingService} from './logging.service';
+import {bdInitialAssignments} from './data';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AssignmentsService {
-  assignments:Assignment[] = [];
+  assignments: Assignment[] = [];
 
-  constructor(private loggingService:LoggingService,
-              private http:HttpClient) { }
+  constructor(private loggingService: LoggingService,
+              private http: HttpClient) {
+  }
 
   url = "http://localhost:8010/api/assignments";
+
   //url = "https://api-intense2022.herokuapp.com/api/assignments";
 
-  getAssignments():Observable<Assignment[]> {
-    // return of(this.assignments);
-
+  getAssignments(): Observable<Assignment[]> {
     return this.http.get<Assignment[]>(this.url);
   }
 
-  getAssignmentsPagine(page:number, limit:number):Observable<any> {
+  getAssignmentsPagine(page: number, limit: number): Observable<any> {
     return this.http.get<any>(`${this.url}?page=${page}&limit=${limit}`);
   }
 
-  getAssignment(id:number):Observable<Assignment|undefined> {
-    //let assignment = this.assignments.find(elem => elem.id === id);
-
-    //return of(assignment);
-
+  getAssignment(id: number): Observable<Assignment | undefined> {
     return this.http.get<Assignment>(this.url + "/" + id);
   }
 
-  addAssignment(assignment:Assignment):Observable<any>{
-    //this.assignments.push(assignment);
-
+  addAssignment(assignment: Assignment): Observable<any> {
     this.loggingService.log(assignment.nom, "ajouté");
-
-    //return of(`Assignment ${assignment.nom} ajouté`);
 
     return this.http.post<Assignment>(this.url, assignment);
   }
 
-  updateAssignment(assignment:Assignment):Observable<any> {
-    // pour le moment rien de spécial à faire
-    // mais plus tard -> requête PUT sur un web service
-    // pour mettre à jour une BD distante...
-
-    //return of(`Assignment ${assignment.nom} modifié`);
+  updateAssignment(assignment: Assignment): Observable<any> {
     return this.http.put<Assignment>(this.url, assignment);
   }
 
-  deleteAssignment(assignment:Assignment):Observable<any> {
-
-    //const pos = this.assignments.indexOf(assignment);
-    //this.assignments.splice(pos, 1);
-
-    //return of(`Assignment ${assignment.nom} supprimé`);
+  deleteAssignment(assignment: Assignment): Observable<any> {
     return this.http.delete(this.url + "/" + assignment._id);
   }
 
-  // version naive qui ne renvoie rien
-  // on en peut pas savoir quand tous les add auront été faits
   peuplerBD() {
     bdInitialAssignments.forEach(assignment => {
       const a = new Assignment();
@@ -74,17 +54,17 @@ export class AssignmentsService {
       a.dateDeRendu = new Date(assignment.dateDeRendu);
       a.rendu = assignment.rendu;
       a.id = assignment.id;
+      a.idMatiere = assignment.idMatiere;
 
       this.addAssignment(a)
-      .subscribe(reponse => {
-        console.log(assignment.nom + " inséré dans la BD");
-      })
+        .subscribe(reponse => {
+          console.log(assignment.nom + " inséré dans la BD");
+        })
     })
   }
 
-  // version non naïve
   peuplerBDAvecForkJoin(): Observable<any> {
-    const appelsVersAddAssignment:any = [];
+    const appelsVersAddAssignment: any = [];
 
     bdInitialAssignments.forEach((a) => {
       const nouvelAssignment = new Assignment();

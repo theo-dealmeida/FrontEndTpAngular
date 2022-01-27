@@ -1,99 +1,44 @@
-<div class="wrap-table100">
-  <div class="table100 ver1 m-b-110">
-    <div class="table100-head">
-      <table>
-        <thead>
-        <tr class="row100 head">
-          <th class="cell100 column1">Assignement</th>
-          <th class="cell100 column2">Rendu</th>
-          <th class="cell100 column3">Date</th>
-          <th class="cell100 column4">Commentaires</th>
-          <th class="cell100 column5">Note</th>
-        </tr>
-        </thead>
-      </table>
-    </div>
-    <div class="table100-body js-pscroll ps ps--active-y">
-      <table>
-        <tbody>
-        <tr *ngFor="let assigment of assignments">
-          <td class="cell100 column1"><a routerLink="/assignment/{{assigment.id}}">{{assigment.nom}}</a></td>
-          <td class="cell100 column2">{{assigment.rendu}}</td>
-          <td class="cell100 column3">{{assigment.dateDeRendu | date}}</td>
-          <td class="cell100 column4">RAS</td>
-          <td class="cell100 column5">
-            <p *ngIf="assigment.rendu;" appRendu>
-              10 / 20
-            </p>
-            <p *ngIf="!assigment.rendu;" appRendu>
-              - / -
-            </p>
-          </td>
+<div class="table-container">
+  <table [dataSource]="dataSource" class="table" mat-table>
 
+    <ng-container matColumnDef="Assignement">
+      <th *matHeaderCellDef mat-header-cell>Assignement</th>
+      <td *matCellDef="let assignment" mat-cell><a routerLink="/assignment/{{assignment.id}}">{{assignment.nom}}</a>
+      </td>
+    </ng-container>
 
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+    <ng-container matColumnDef="Matière">
+      <th *matHeaderCellDef mat-header-cell>Matière</th>
+      <td *matCellDef="let assignment" mat-cell>{{matieres[assignment.idMatiere - 1].name}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Rendu">
+      <th *matHeaderCellDef mat-header-cell>Rendu</th>
+      <td *matCellDef="let assignment" mat-cell>{{assignment.rendu}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Date">
+      <th *matHeaderCellDef mat-header-cell>Date</th>
+      <td *matCellDef="let assignment" mat-cell>{{assignment.dateDeRendu | date}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Commentaires">
+      <th *matHeaderCellDef mat-header-cell>Commentaires</th>
+      <td *matCellDef="let assignment" mat-cell>RAS</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Note">
+      <th *matHeaderCellDef mat-header-cell>Note</th>
+      <td *matCellDef="let assignment" mat-cell>10/20</td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+  </table>
+
+  <mat-paginator #paginator (page)="pageEvent = $event" [length]="assignments.length" [pageSizeOptions]="pageSizeOptions"
+                 [pageSize]=limit showFirstLastButtons></mat-paginator>
 </div>
-
-
-<main class="container">
-  <div class="ajouterBtn">
-    <a routerLink="/add">
-      <button mat-flat-button color="accent">
-        Ajouter Assignment
-      </button>
-    </a>
-  </div>
-
-
-  <div style="text-align: center;"><h2>Liste des assignments :</h2></div>
-  Nombre assignments par page :
-  <input type=range min=2 max=100 value=10 [(ngModel)]="limit" (change)="getAssignments()"> {{limit}}
-  <div class="pagination">
-    <button mat-stroked-button color="primary"
-            (click)="premierePage()"
-            [disabled]="page===1"
-    >Première page
-    </button>
-    &nbsp;
-    <button mat-stroked-button color="primary"
-            (click)="pagePrecedente()"
-            [disabled]="!hasPrevPage"
-    >Page précédente
-    </button>
-    &nbsp;
-    <button mat-stroked-button color="primary"
-            (click)="pageSuivante()"
-            [disabled]="!hasNextPage"
-    >Page suivante
-    </button>
-    &nbsp;
-    <button mat-stroked-button color="primary"
-            (click)="dernierePage()"
-            [disabled]="page===totalPages"
-    >Dernière page
-    </button>
-
-  </div>
-  <mat-list *ngFor="let assignment of assignments">
-    <nav>
-      <a routerLink="/assignment/{{assignment.id}}">
-        <h3 mat-subheader>Date de rendu : {{assignment.dateDeRendu | date}}</h3>
-        <mat-list-item>
-          <p *ngIf="assignment.rendu; else nonsoumis" appRendu>
-            {{assignment.nom}} a été rendu par l'élève.
-          </p>
-
-          <ng-template #nonsoumis>
-            <p>{{assignment.nom}} non rendu.</p>
-          </ng-template>
-          <mat-divider></mat-divider>
-        </mat-list-item>
-      </a>
-    </nav>
-  </mat-list>
-
-</main>
+<div>
+  <button mat-stroked-button (click)="matiereService.peuplerBD()">Peupler matières</button>
+</div>

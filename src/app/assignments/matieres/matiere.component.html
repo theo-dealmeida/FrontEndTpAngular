@@ -1,0 +1,15 @@
+<mat-card *ngIf="matiereTransmise">
+  <div class="row">
+    <div class="col-sm">
+      <h1>Matiere : {{matiereTransmise.name}}</h1>
+      <br>
+      <div>
+        <h3>Professeur : </h3>
+        <img class="profImage" src="{{matiereTransmise.photoProf}}">
+      </div>
+    </div>
+    <div class="col-sm" >
+      <img alt="{{matiereTransmise.name}}" class="matiereImage" src="{{matiereTransmise.imageMatiere}}">
+    </div>
+  </div>
+</mat-card>

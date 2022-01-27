@@ -1,30 +1,21 @@
 <mat-card *ngIf="assignmentTransmis">
   <mat-card-title>{{assignmentTransmis.nom}}</mat-card-title>
   <mat-card-subtitle>{{assignmentTransmis.dateDeRendu | date}}</mat-card-subtitle>
+
+  <h4> Matière : <a [routerLink]="'/matiere/' + matieres[assignmentTransmis.idMatiere - 1].id">{{matieres[assignmentTransmis.idMatiere - 1].name}}</a></h4>
+
   <div class="bottom">
-    <mat-checkbox *ngIf="!assignmentTransmis.rendu" (click)="onAssignmentRendu()">
+    <mat-checkbox (click)="onAssignmentRendu()" *ngIf="!assignmentTransmis.rendu">
       Rendu
     </mat-checkbox>
 
     <nav>
-      <!-- la route "relative" marche aussi car on est déjà dans /assignment/id
-            Le fait de naviguer vers ['edit'] rajoute edit à la fin -->
-      <!--<a [routerLink]="['edit']"> -->
-
-        <!-- ici exemple avec route absolue (commence par /) -->
-        <!--
-          <a [routerLink]="['/assignment', assignmentTransmis.id, 'edit']">
-          -->
-
-        <button [disabled]="!isAdmin" mat-stroked-button color="primary" (click)="onClickEdit()">
-          EDIT
-        </button>
-        <!--
-      </a>
-    -->
+      <button (click)="onClickEdit()" [disabled]="!isAdmin" color="primary" mat-stroked-button>
+        EDIT
+      </button>
     </nav>
 
-    <button mat-raised-button color="accent" (click)="onDeleteAssignment()">
+    <button (click)="onDeleteAssignment()" color="accent" mat-raised-button>
       DELETE
     </button>
   </div>

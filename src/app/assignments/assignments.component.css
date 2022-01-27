@@ -7,6 +7,17 @@
   border: 3px dashed purple;
 }
 
+table {
+  width: 100%;
+}
+
+.table-container {
+  position: relative;
+  min-height: 200px;
+  max-height: 800px;
+  overflow: auto;
+}
+
 .important {
   font-size: 40px;
 }
