@@ -1,47 +1,51 @@
 <div class="table-container">
 
-  <mat-form-field class="filter" appearance="standard">
+  <mat-form-field appearance="standard" class="filter">
     <mat-label>Filtrer</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. lorem ipsum etc" #input>
+    <input #input (keyup)="applyFilter($event)" matInput placeholder="Ex. lorem ipsum etc">
   </mat-form-field>
 
   <table [dataSource]="dataSource" class="table mat-elevation-z8" mat-table
-         multiTemplateDataRows  matSort >
+         matSort multiTemplateDataRows>
 
-    <ng-container matColumnDef="nom" >
-      <th *matHeaderCellDef mat-sort-header mat-header-cell>Assignement</th>
+    <ng-container matColumnDef="nom">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Assignement</th>
       <td *matCellDef="let assignment" mat-cell><a routerLink="/assignment/{{assignment.id}}">{{assignment.nom}}</a>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="idEleve">
-      <th *matHeaderCellDef mat-sort-header mat-header-cell matTooltip="Trier par ID d'élèves'">Elève</th>
-      <td *matCellDef="let assignment" mat-cell>{{eleves[assignment.idEleve - 1].name}}</td>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header matTooltip="Trier par ID d'élèves'">Elève</th>
+      <td *matCellDef="let assignment"
+          mat-cell>{{assignment.idEleve ? eleves[assignment.idEleve - 1].name : "Non défini"}}</td>
     </ng-container>
 
     <ng-container matColumnDef="idMatiere">
-      <th *matHeaderCellDef mat-sort-header mat-header-cell  matTooltip="Trier par ID de matières">Matière</th>
-      <td *matCellDef="let assignment" mat-cell>{{matieres[assignment.idMatiere - 1].name}}</td>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header matTooltip="Trier par ID de matières">Matière</th>
+      <td *matCellDef="let assignment"
+          mat-cell>{{assignment.idMatiere ? matieres[assignment.idMatiere - 1].name : "Non définie"}}</td>
     </ng-container>
 
     <ng-container matColumnDef="rendu">
-      <th *matHeaderCellDef mat-sort-header mat-header-cell>Rendu</th>
-      <td *matCellDef="let assignment" mat-cell>{{assignment.rendu === false ? 'Non rendu' : 'Rendu'}}</td>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Rendu</th>
+      <td *matCellDef="let assignment" mat-cell><b *ngIf="assignment.rendu" class="rendu"> Rendu </b>
+        <b *ngIf="!assignment.rendu" class="nonRendu"> Non rendu </b></td>
     </ng-container>
 
     <ng-container matColumnDef="dateDeRendu">
-      <th *matHeaderCellDef mat-sort-header mat-header-cell>Date</th>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
       <td *matCellDef="let assignment" mat-cell>{{assignment.dateDeRendu | date}}</td>
     </ng-container>
 
     <ng-container matColumnDef="commentaires">
-      <th *matHeaderCellDef mat-sort-header  mat-header-cell>Commentaires</th>
-      <td *matCellDef="let assignment" mat-cell>{{assignment.commentaires}}</td>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Commentaires</th>
+      <td *matCellDef="let assignment" mat-cell>{{assignment.commentaires ? assignment.commentaires : ""}}</td>
     </ng-container>
 
     <ng-container matColumnDef="note">
-      <th *matHeaderCellDef mat-sort-header mat-header-cell>Note</th>
-      <td *matCellDef="let assignment" mat-cell>{{assignment.note === null ? "Non noté" : assignment.note + "/20"}}</td>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Note</th>
+      <td *matCellDef="let assignment"
+          mat-cell>{{assignment.note === null || !assignment.note ? "Non noté" : assignment.note + "/20"}}</td>
     </ng-container>
 
     <ng-container matColumnDef="expandedDetail">
@@ -52,23 +56,25 @@
           <div class="col-sm assignment-haut">
             <div class="assignment-nom"> {{assignment.nom}} </div>
             <br>
-            <div class="assignment-eleve">Elève : {{eleves[assignment.idEleve - 1].name}} </div>
+            <div class="assignment-eleve">Elève
+              : {{assignment.idEleve ? eleves[assignment.idEleve - 1].name : "Non défini"}} </div>
             <br>
             <div class="assignment-rendu"> Etat :
-              <b class="rendu" *ngIf="assignment.rendu"> Rendu </b>
-              <b class="nonRendu" *ngIf="!assignment.rendu"> Non rendu </b>
+              <b *ngIf="assignment.rendu" class="rendu"> Rendu </b>
+              <b *ngIf="!assignment.rendu" class="nonRendu"> Non rendu </b>
             </div>
             <br>
             <div class="assignment-date"> Date de rendu : {{assignment.dateDeRendu | date}}</div>
           </div>
           <div class="col-sm assignment-description">
             <div *ngIf="assignment.note !== null" class="assignment-note"> Note
-              : {{assignment.note === null ? "Non noté" : assignment.note + "/20"}}
+              : {{assignment.note === null || !assignment.note ? "Non noté" : assignment.note + "/20"}}
             </div>
             <br *ngIf="assignment.note !== null">
-            <div class="assignment-commentaires"> Commentaires : <i>{{assignment.commentaires}}</i></div>
+            <div class="assignment-commentaires"> Commentaires :
+              <i>{{assignment.commentaires ? assignment.commentaires : ""}}</i></div>
           </div>
-          <div class="col-sm assignment-description">
+          <div *ngIf="assignment.idMatiere" class="col-sm assignment-description">
             <div class=" assignment-matiere"> Matière : {{matieres[assignment.idMatiere - 1].name}} </div>
             <div class="assignment-prof"><img alt="" class="imageProf"
                                               src="{{matieres[assignment.idMatiere - 1].photoProf}}"></div>
@@ -78,13 +84,14 @@
     </ng-container>
 
     <tr *matHeaderRowDef="columnsToDisplay; sticky: true" mat-header-row></tr>
-    <tr (click)="expandedAssignment = expandedAssignment === assignment ? null : assignment" *matRowDef="let assignment; columns: columnsToDisplay;"
+    <tr (click)="expandedAssignment = expandedAssignment === assignment ? null : assignment"
+        *matRowDef="let assignment; columns: columnsToDisplay;"
         [class.expanded-row]="expandedAssignment === assignment"
         class="assignment-row"
         mat-row>
     </tr>
     <tr *matRowDef="let row; columns: ['expandedDetail']" class="detail-row" mat-row></tr>
-    <tr class="mat-row" *matNoDataRow>
+    <tr *matNoDataRow class="mat-row">
       <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
     </tr>
   </table>
@@ -96,11 +103,15 @@
 
 <mat-card class="checkbox mat-elevation-z2">
   Afficher les assignments :
-  <mat-checkbox [(ngModel)]="rendu" (change)="upateRenduTable()">Rendus</mat-checkbox>
-  <mat-checkbox [(ngModel)]="nonRendu" (change)="upateRenduTable()">Non rendus</mat-checkbox>
+  <mat-checkbox (change)="upateRenduTable()" [(ngModel)]="rendu">Rendus</mat-checkbox>
+  <mat-checkbox (change)="upateRenduTable()" [(ngModel)]="nonRendu">Non rendus</mat-checkbox>
 </mat-card>
 <div>
-  <button (click)="matiereService.peuplerBD()" mat-stroked-button>Peupler matières</button>
-  <button (click)="assignmentService.peuplerBD()" mat-stroked-button>Peupler assignment</button>
-  <button (click)="eleveService.peuplerBD()" mat-stroked-button>Peupler eleves</button>
+  <button (click)="matiereService.peuplerBD()" *ngIf="matieres.length === 0" mat-stroked-button>Peupler matières
+  </button>
+  <button (click)="assignmentService.peuplerBD()" *ngIf="dataSource.data.length === 0" mat-stroked-button>Peupler
+    assignment
+  </button>
+  <button (click)="eleveService.peuplerBD()" *ngIf="eleves.length === 0" mat-stroked-button>Peupler eleves</button>
+  <button color="primary" mat-raised-button routerLink="/add">Ajouter un assignment</button>
 </div>
