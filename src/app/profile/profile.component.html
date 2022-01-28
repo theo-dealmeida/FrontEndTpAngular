@@ -9,10 +9,11 @@
   <p class="title">ID : {{ currentUser._id }}e</p>
   <p>Mail : {{ currentUser.email }}</p>
   <p>Expiration du token : {{ expDate}}</p>
-  <p><button>Contact</button></p>
 </div>
-
-
-<br>
-<br>
-<p>Token : {{token}}</p>
+<div class="callout">
+  <div class="callout-header">Token</div>
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  <div class="callout-container">
+    <p> {{token}}</p>
+  </div>
+</div>
