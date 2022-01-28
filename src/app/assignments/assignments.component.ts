@@ -5,38 +5,64 @@ import {MatieresService} from "../shared/matieres.service";
 import {Matiere} from "./matieres/matiere.model";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
+import {ElevesService} from "../shared/eleves.service";
+import {Eleve} from "./eleves/eleve.model";
+import {animate, state, style, transition, trigger} from "@angular/animations";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-assignments',
   templateUrl: './assignments.component.html',
   styleUrls: ['./assignments.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class AssignmentsComponent implements OnInit {
-  displayedColumns: string[] = ['Assignement', 'Matière', 'Rendu', 'Date', 'Commentaires', 'Note'];
+  columnsToDisplay: string[] = ['nom', 'idEleve', 'idMatiere', 'rendu', 'dateDeRendu', 'commentaires', 'note'];
 
   assignments: Assignment[] = [];
 
   page: number = 1;
   limit: number = 10;
 
+  rendu: boolean = false;
+  nonRendu: boolean = false;
+
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageEvent: PageEvent | undefined;
 
   matieres: Matiere[] = []
+  eleves: Eleve[] = []
+
   dataSource: MatTableDataSource<Assignment> = new MatTableDataSource();
 
-  @ViewChild('paginator') paginator!: MatPaginator;
+  expandedAssignment: Assignment | null | undefined;
 
-  constructor(public assignmentService: AssignmentsService, public matiereService: MatieresService) {
+  isLoadingResults = true;
+
+  @ViewChild('paginator') paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(public assignmentService: AssignmentsService, public matiereService: MatieresService, public eleveService: ElevesService) {
   }
 
   ngOnInit(): void {
     this.getMatieres();
+    this.getEleves();
     this.getAssignments();
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = function(data, filter: string): boolean {
+      return data.nom.toLowerCase().includes(filter) || String(data.rendu).includes(filter.toString());
+    };
   }
 
   getAssignments() {
@@ -48,17 +74,27 @@ export class AssignmentsComponent implements OnInit {
   getMatieres() {
     this.matiereService.getMatieres().subscribe((data) => {
       this.matieres = data;
-      console.log(this.matieres);
     });
   }
 
-  setPageSizeOptions(setPageSizeOptionsInput: string) {
-    if (setPageSizeOptionsInput) {
-      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
-    }
+  getEleves() {
+    this.eleveService.getEleves().subscribe((data) => {
+      this.eleves = data;
+    });
   }
 
-  getColor(a: any) {
-    return a.rendu ? 'green' : 'red';
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  upateRenduTable() {
+    if (this.rendu && this.nonRendu || !this.rendu && !this.nonRendu) {
+      this.dataSource.filter = '';
+    } else if (this.rendu && !this.nonRendu) {
+      this.dataSource.filter = 'true';
+    } else {
+      this.dataSource.filter = 'false';
+    }
   }
 }

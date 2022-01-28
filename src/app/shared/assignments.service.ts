@@ -4,6 +4,7 @@ import {forkJoin, Observable} from 'rxjs';
 import {Assignment} from '../assignments/assignment.model';
 import {LoggingService} from './logging.service';
 import {bdInitialAssignments} from './data';
+import {SortDirection} from "@angular/material/sort";
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,10 @@ export class AssignmentsService {
     return this.http.get<Assignment[]>(this.url);
   }
 
-  getAssignmentsPagine(page: number, limit: number): Observable<any> {
-    return this.http.get<any>(`${this.url}?page=${page}&limit=${limit}`);
+  getAssignmentsPagine(sort: string, order: SortDirection, page: number): Observable<any> {
+    return this.http.get<any>(`${this.url}?&sort=${sort}&order=${order}&page=${
+      page
+    }`);
   }
 
   getAssignment(id: number): Observable<Assignment | undefined> {
@@ -52,9 +55,12 @@ export class AssignmentsService {
 
       a.nom = assignment.nom;
       a.dateDeRendu = new Date(assignment.dateDeRendu);
+      a.note = assignment.note;
       a.rendu = assignment.rendu;
+      a.commentaires = assignment.remarques;
       a.id = assignment.id;
       a.idMatiere = assignment.idMatiere;
+      a.idEleve = assignment.idEleve
 
       this.addAssignment(a)
         .subscribe(reponse => {
