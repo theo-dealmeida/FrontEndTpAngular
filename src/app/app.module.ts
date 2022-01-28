@@ -42,6 +42,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 export function tokenGetter() {
   return localStorage.getItem("x-access-token");
@@ -106,7 +107,7 @@ const routes:Routes = [
       config: {
         tokenGetter: tokenGetter
       },
-    }), ReactiveFormsModule, MatTableModule, MatSortModule, MatPaginatorModule, MatProgressSpinnerModule, MatTooltipModule,
+    }), ReactiveFormsModule, MatTableModule, MatSortModule, MatPaginatorModule, MatProgressSpinnerModule, MatTooltipModule, MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

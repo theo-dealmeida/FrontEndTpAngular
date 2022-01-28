@@ -9,6 +9,7 @@ import {ElevesService} from "../shared/eleves.service";
 import {Eleve} from "./eleves/eleve.model";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {MatSort} from "@angular/material/sort";
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-assignments',
@@ -48,7 +49,7 @@ export class AssignmentsComponent implements OnInit {
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(public assignmentService: AssignmentsService, public matiereService: MatieresService, public eleveService: ElevesService) {
+  constructor(public assignmentService: AssignmentsService, public matiereService: MatieresService, public eleveService: ElevesService, private _snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -91,10 +92,17 @@ export class AssignmentsComponent implements OnInit {
   upateRenduTable() {
     if (this.rendu && this.nonRendu || !this.rendu && !this.nonRendu) {
       this.dataSource.filter = '';
+      this.openSnackBar('Affichage de tous les Assignments', 'Compris!')
     } else if (this.rendu && !this.nonRendu) {
       this.dataSource.filter = 'true';
+      this.openSnackBar('Affichage des Assignments rendus', 'Compris!')
     } else {
       this.dataSource.filter = 'false';
+      this.openSnackBar('Affichage des Assignments non rendus', 'Compris!')
     }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
   }
 }
