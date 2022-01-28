@@ -1,9 +1,19 @@
-<p>Profile</p>
 
+<h1 style="font-size:50px; color:black; margin:10px;">Profile</h1>
 
-<h2>Nom d'utilisateur : {{currentUser.name}}</h2>
-<h2>Identifiant : {{ currentUser._id }}</h2>
-<h2>Adresse mail : {{ currentUser.email }}</h2>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<p>Token : {{token}}</p>
-<p>Expiration du token : {{expDate}} </p>
+<div class="card">
+  <img src="https://www.w3schools.com/howto/img_avatar.png" alt="{{currentUser.name}}" style="width:100%">
+  <h1>{{currentUser.name}}</h1>
+  <p class="title">ID : {{ currentUser._id }}e</p>
+  <p>Mail : {{ currentUser.email }}</p>
+  <p>Expiration du token : {{ expDate}}</p>
+</div>
+<div class="callout">
+  <div class="callout-header">Token</div>
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  <div class="callout-container">
+    <p> {{token}}</p>
+  </div>
+</div>
