@@ -1,5 +1,17 @@
+h1 {
+  margin: 10px 0 0 30px;
+}
+
+mat-card {
+  margin: 30px;
+}
+
+.retourButton {
+  margin-left: 30px;
+}
+
 .bottom {
-  display:flex;
+  display: flex;
   justify-content: space-between;
   align-items: flex-end;
 }

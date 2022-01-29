@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -12,14 +12,14 @@ import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle'
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
 import {RouterModule, Routes} from '@angular/router';
-import { JwtModule } from "@auth0/angular-jwt";
+import {JwtModule} from "@auth0/angular-jwt";
 
 import {AppComponent} from './app.component';
 import {AssignmentsComponent} from './assignments/assignments.component';
@@ -35,7 +35,6 @@ import {MatiereComponent} from "./assignments/matieres/matiere.component";
 import {RenduDirective} from './shared/rendu.directive';
 
 import {AuthGuardAdmin} from './shared/auth-guard-admin.service';
-import {AuthService} from "./shared/auth.service";
 import {AuthGuardUser} from "./shared/auth-guard-user.service";
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
@@ -43,6 +42,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatStepperModule} from "@angular/material/stepper";
 
 export function tokenGetter() {
   return localStorage.getItem("x-access-token");
@@ -107,7 +107,7 @@ const routes:Routes = [
       config: {
         tokenGetter: tokenGetter
       },
-    }), ReactiveFormsModule, MatTableModule, MatSortModule, MatPaginatorModule, MatProgressSpinnerModule, MatTooltipModule, MatSnackBarModule
+    }), ReactiveFormsModule, MatTableModule, MatSortModule, MatPaginatorModule, MatProgressSpinnerModule, MatTooltipModule, MatSnackBarModule, MatStepperModule
   ],
   providers: [],
   bootstrap: [AppComponent]

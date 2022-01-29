@@ -1,8 +1,12 @@
-<mat-card *ngIf="assignmentTransmis">
+<h1>Détail d'un assignment</h1>
+
+<mat-card *ngIf="assignmentTransmis" class="mat-elevation-z8">
   <mat-card-title>{{assignmentTransmis.nom}}</mat-card-title>
   <mat-card-subtitle>{{assignmentTransmis.dateDeRendu | date}}</mat-card-subtitle>
 
-  <h4> Matière : <a [routerLink]="'/matiere/' + matieres[assignmentTransmis.idMatiere - 1].id">{{matieres[assignmentTransmis.idMatiere - 1].name}}</a></h4>
+  <h4> Matière : <a
+    [routerLink]="'/matiere/' + matieres[assignmentTransmis.idMatiere - 1].id">{{matieres[assignmentTransmis.idMatiere - 1].name}}</a>
+  </h4>
 
   <div class="bottom">
     <mat-checkbox (click)="onAssignmentRendu()" *ngIf="!assignmentTransmis.rendu">
@@ -20,3 +24,5 @@
     </button>
   </div>
 </mat-card>
+
+<button [routerLink]="'/home'" class="retourButton" mat-stroked-button>Retour à la liste des assigments</button>
