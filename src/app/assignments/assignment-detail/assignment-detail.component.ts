@@ -1,9 +1,8 @@
-import { ThrowStmt } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AssignmentsService } from 'src/app/shared/assignments.service';
-import { AuthService } from 'src/app/shared/auth.service';
-import { Assignment } from '../assignment.model';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AssignmentsService} from 'src/app/shared/assignments.service';
+import {AuthService} from 'src/app/shared/auth.service';
+import {Assignment} from '../assignment.model';
 import {User} from "../../shared/user/User";
 import {MatieresService} from "../../shared/matieres.service";
 import {Matiere} from "../matieres/matiere.model";
