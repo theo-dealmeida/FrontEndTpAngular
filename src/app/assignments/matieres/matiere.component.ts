@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {MatieresService} from "../../shared/matieres.service";
 import {Matiere} from "./matiere.model";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -9,6 +9,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./matiere.component.css'],
 })
 export class MatiereComponent implements OnInit {
+
   matiereTransmise?:Matiere;
 
   constructor(public matiereService: MatieresService,  private route:ActivatedRoute) {

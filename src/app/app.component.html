@@ -22,7 +22,8 @@
     <mat-nav-list>
 
       <a mat-list-item [routerLink]="'/home'"> Liste assignments </a>
-      <a *ngIf="this.authService.loggedIn" mat-list-item [routerLink]="'/profile/' + authService.currentUser._id"> Mon compte </a>
+      <a *ngIf="this.authService.loggedIn" [routerLink]="'/profile/' + authService.currentUser._id" mat-list-item>
+        Profil </a>
 
     </mat-nav-list>
   </mat-drawer>

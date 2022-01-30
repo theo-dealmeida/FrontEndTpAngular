@@ -2,6 +2,14 @@ button {
   margin: -10px 10px 10px 30px;
 }
 
+h1 {
+  margin: 10px 0 0 30px;
+}
+
+b {
+  font-weight: lighter;
+}
+
 .mat-header-cell {
   font-size: 20px;
   background-color: lightgrey;
@@ -31,7 +39,7 @@ button {
 }
 
 .table-container {
-  margin: 30px;
+  margin: 0 30px 30px 30px;
   justify-content: center;
 }
 

@@ -1,3 +1,54 @@
+<h1>Ajouter un assignment</h1>
+<mat-stepper #stepper linear>
+  <mat-step [stepControl]="firstFormGroup" errorMessage="Le nom doit être saisi">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Nom de l'assignment</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input [(ngModel)]="nomDevoir" formControlName="firstCtrl" matInput required>
+      </mat-form-field>
+      <div>
+        <button mat-stroked-button matStepperNext>Suivant</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" errorMessage="La date doit être saisie" label="Date de rendu">
+    <form [formGroup]="secondFormGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>Date de rendu</mat-label>
+        <input [(ngModel)]="dateDeRendu" [matDatepicker]="picker" formControlName="secondCtrl" matInput name="date"
+               placeholder="Date de rendu" required>
+
+        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <div>
+        <button mat-stroked-button matStepperPrevious>Retour</button>
+        <button mat-stroked-button matStepperNext>Suivant</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="thirdFormGroup" errorMessage="La matière doit être sélectionnée" label="Matière">
+    <form [formGroup]="thirdFormGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>Matière</mat-label>
+        <mat-select [(value)]="matiereSelected" required>
+          <mat-option *ngFor="let matiere of matieres" [value]="matiere.name">
+            {{matiere.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-stroked-button matStepperPrevious>Retour</button>
+        <button (click)="onSubmit()" color="primary" mat-raised-button matStepperNext>Envoyer</button>
+        <button [routerLink]="'/home'" mat-stroked-button>Retour à la liste des assigments</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-stepper>
+
+
+<!--
 <form ngForm class="form"
       #assignmentForm
       (submit)="onSubmit(); assignmentForm.reset();">
@@ -13,7 +64,18 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
+  <mat-form-field appearance="fill">
+    <mat-label>Matière</mat-label>
+    <mat-select required [(value)]="matiereSelected">
+      <mat-option *ngFor="let matiere of matieres" [value]="matiere.name">
+        {{matiere.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+
   <button mat-stroked-button color="primary">
     Ajouter un devoir
   </button>
-</form>
+</form>  -->

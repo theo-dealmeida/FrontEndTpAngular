@@ -1,5 +1,13 @@
+h1 {
+  margin: 10px;
+}
+
+button {
+  margin: 10px;
+}
+
 .form {
-  display:flex;
+  display: flex;
   flex-direction: column;
-  margin:5px;
+  margin: 20px;
 }
