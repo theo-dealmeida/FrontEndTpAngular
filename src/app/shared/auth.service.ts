@@ -10,7 +10,7 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 })
 export class AuthService {
 
-  url = "https://back-angular2022.herokuapp.com//api/auth";
+  url = "https://back-angular2022.herokuapp.com/api/auth";
 
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   public currentUser: User = new User();

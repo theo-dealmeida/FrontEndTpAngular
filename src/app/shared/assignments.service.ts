@@ -17,7 +17,7 @@ export class AssignmentsService {
               private http: HttpClient) {
   }
 
-  url = "https://back-angular2022.herokuapp.com//api/assignments";
+  url = "https://back-angular2022.herokuapp.com/api/assignments";
 
 
   getAssignments(): Observable<Assignment[]> {

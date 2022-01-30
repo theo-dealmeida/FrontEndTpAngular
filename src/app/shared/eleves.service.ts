@@ -15,7 +15,7 @@ export class ElevesService {
   constructor(private loggingService: LoggingService,
               private http:HttpClient) { }
 
-  url = "https://back-angular2022.herokuapp.com//api/eleves";
+  url = "https://back-angular2022.herokuapp.com/api/eleves";
 
   getEleves():Observable<Eleve[]> {
     return this.http.get<Eleve[]>(this.url);

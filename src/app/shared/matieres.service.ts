@@ -15,7 +15,7 @@ export class MatieresService {
   constructor(private loggingService: LoggingService,
               private http:HttpClient) { }
 
-  url = "https://back-angular2022.herokuapp.com//api/matieres";
+  url = "https://back-angular2022.herokuapp.com/api/matieres";
 
   getMatieres():Observable<Matiere[]> {
     return this.http.get<Matiere[]>(this.url);
