@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Pirata+One|Rubik:900');
+
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-width: 300px;
@@ -72,3 +74,18 @@ button:hover, a:hover {
 .closebtn:hover {
   color: lightgrey;
 }
+
+
+h1 {text-align: center;
+
+  text-transform: Uppercase;
+  margin-bottom: .5em;
+  font-family: 'Rubik', sans-serif;
+  font-size: 4rem;
+  color: #E4E5E6; }
+
+h1 {
+  position: relative;
+  background: linear-gradient(to right, #24243e, #141E30, #0f0c29);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; }

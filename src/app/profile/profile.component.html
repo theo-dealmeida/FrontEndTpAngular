@@ -1,11 +1,12 @@
 
-<h1 style="font-size:50px; color:black; margin:10px;">Profile</h1>
+
+<h1 data-text="Profile">Profile</h1>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div class="card">
   <img src="https://www.w3schools.com/howto/img_avatar.png" alt="{{currentUser.name}}" style="width:100%">
-  <h1>{{currentUser.name}}</h1>
+  <h2>{{currentUser.name}}</h2>
   <p class="title">ID : {{ currentUser._id }}e</p>
   <p>Mail : {{ currentUser.email }}</p>
   <p>Expiration du token : {{ expDate}}</p>
