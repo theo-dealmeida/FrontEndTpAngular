@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import {Observable } from 'rxjs';
-import { LoggingService } from './logging.service';
-import { bdInitialEleves } from './data';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {LoggingService} from './logging.service';
+import {bdInitialEleves} from './data';
 import {Eleve} from "../assignments/eleves/eleve.model";
 
 @Injectable({
@@ -10,13 +10,12 @@ import {Eleve} from "../assignments/eleves/eleve.model";
 })
 
 export class ElevesService {
-  eleves:Eleve[] = [];
+  eleves: Eleve[] = [];
 
-  constructor(private loggingService:LoggingService,
+  constructor(private loggingService: LoggingService,
               private http:HttpClient) { }
 
-  url = "http://localhost:8010/api/eleves";
-  //url = "https://api-intense2022.herokuapp.com/api/assignments";
+  url = "https://back-angular2022.herokuapp.com//api/eleves";
 
   getEleves():Observable<Eleve[]> {
     return this.http.get<Eleve[]>(this.url);

@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import {Observable } from 'rxjs';
-import { LoggingService } from './logging.service';
-import { bdInitialMatieres } from './data';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {LoggingService} from './logging.service';
+import {bdInitialMatieres} from './data';
 import {Matiere} from "../assignments/matieres/matiere.model";
 
 @Injectable({
@@ -10,13 +10,12 @@ import {Matiere} from "../assignments/matieres/matiere.model";
 })
 
 export class MatieresService {
-  matieres:Matiere[] = [];
+  matieres: Matiere[] = [];
 
-  constructor(private loggingService:LoggingService,
+  constructor(private loggingService: LoggingService,
               private http:HttpClient) { }
 
-  url = "http://localhost:8010/api/matieres";
-  //url = "https://api-intense2022.herokuapp.com/api/assignments";
+  url = "https://back-angular2022.herokuapp.com//api/matieres";
 
   getMatieres():Observable<Matiere[]> {
     return this.http.get<Matiere[]>(this.url);
